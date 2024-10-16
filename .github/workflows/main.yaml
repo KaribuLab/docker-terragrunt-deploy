@@ -24,7 +24,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./node/Dockerfile
+          file: ./node/Dockerfile-node
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/terragrunt-deploy:node-20
