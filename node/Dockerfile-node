@@ -4,7 +4,7 @@ RUN GOBIN=/bin go install github.com/go-task/task/v3/cmd/task@latest
 
 FROM node:20.17.0-alpine3.20
 
-RUN apk add --no-cache bash wget unzip git aws-cli jq && \
+RUN apk add --no-cache bash wget unzip git aws-cli jq openssh-client && \
     mkdir -p /home/node/infra && \
     chown node:node /home/node/infra && \
     wget https://releases.hashicorp.com/terraform/1.9.5/terraform_1.9.5_linux_amd64.zip && \
