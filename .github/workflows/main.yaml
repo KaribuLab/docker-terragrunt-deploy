@@ -28,6 +28,14 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/terragrunt-deploy:node-20
+      - name: Build and push docker 22 and PNPM
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./node/Dockerfile-node22-pnpm
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/terragrunt-deploy:node-22-pnpm
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
