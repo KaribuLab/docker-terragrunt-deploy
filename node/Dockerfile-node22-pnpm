@@ -24,8 +24,6 @@ RUN chmod +x /usr/local/bin/task
 RUN corepack enable && \
     corepack prepare pnpm@9.7.0 --activate
 
-RUN git config --global --add safe.directory /opt/atlassian/pipelines/agent/build
-
 USER node
 
 WORKDIR /home/node/infra
