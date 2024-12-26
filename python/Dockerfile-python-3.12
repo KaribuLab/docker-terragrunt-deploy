@@ -5,6 +5,8 @@ RUN GOBIN=/bin go install github.com/go-task/task/v3/cmd/task@latest
 FROM python:3.12.8-alpine3.21
 
 RUN apk add --no-cache bash wget unzip git aws-cli jq openssh-client && \
+    addgroup -S python && \
+    adduser -S python -G python -s /bin/bash && \
     mkdir -p /home/python/infra && \
     chown python:python /home/python/infra && \
     wget https://releases.hashicorp.com/terraform/1.9.5/terraform_1.9.5_linux_amd64.zip && \
@@ -14,13 +16,14 @@ RUN apk add --no-cache bash wget unzip git aws-cli jq openssh-client && \
     chmod +x /usr/local/bin/terraform && \
     wget https://github.com/gruntwork-io/terragrunt/releases/download/v0.67.4/terragrunt_linux_amd64 && \
     mv terragrunt_linux_amd64 /usr/local/bin/terragrunt && \
-    chmod +x /usr/local/bin/terragrunt && \
-    pip install nox
+    chmod +x /usr/local/bin/terragrunt
 
 COPY --from=builder /bin/task /usr/local/bin/task
 
 RUN chmod +x /usr/local/bin/task
 
 USER python
+
+RUN pip install nox
 
 WORKDIR /home/python/infra
