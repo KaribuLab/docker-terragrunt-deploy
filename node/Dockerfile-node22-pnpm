@@ -20,10 +20,6 @@ COPY --from=builder /bin/task /usr/local/bin/task
 
 RUN chmod +x /usr/local/bin/task
 
-# Instala pnpm y habilita Corepack
-RUN corepack enable && \
-    corepack prepare pnpm@9.7.0 --activate
-
 USER node
 
 WORKDIR /home/node/infra
