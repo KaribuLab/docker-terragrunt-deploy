@@ -20,6 +20,8 @@ COPY --from=builder /bin/task /usr/local/bin/task
 
 RUN chmod +x /usr/local/bin/task
 
+RUN npm install -g pnpm
+
 USER node
 
 WORKDIR /home/node/infra
