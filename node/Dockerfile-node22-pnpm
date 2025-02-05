@@ -22,6 +22,8 @@ RUN chmod +x /usr/local/bin/task
 
 RUN npm install -g pnpm
 
+RUN apk add --no-cache rsync
+
 USER node
 
 WORKDIR /home/node/infra
