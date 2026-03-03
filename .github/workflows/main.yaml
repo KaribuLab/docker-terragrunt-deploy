@@ -6,8 +6,23 @@ on:
       - "main"
 
 jobs:
-  build_node:
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - name: node-20
+            dockerfile: ./node/Dockerfile-node
+            tag: node-20
+          - name: node-22-pnpm
+            dockerfile: ./node/Dockerfile-node22-pnpm
+            tag: node-22-pnpm
+          - name: node-24-pnpm
+            dockerfile: ./node/Dockerfile-node24-pnpm
+            tag: node-24-pnpm
+          - name: python-3.12
+            dockerfile: ./python/Dockerfile-python-3.12
+            tag: python-3.12
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -20,38 +35,20 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Build and push
+      - name: Build and push ${{ matrix.name }}
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./node/Dockerfile-node
+          file: ${{ matrix.dockerfile }}
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/terragrunt-deploy:node-20
-      - name: Build and push docker 22 and PNPM
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./node/Dockerfile-node22-pnpm
-          push: true
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/terragrunt-deploy:node-22-pnpm
-      - name: Build and push docker 24 and PNPM
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./node/Dockerfile-node24-pnpm
-          push: true
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/terragrunt-deploy:node-24-pnpm
-      - name: Build and push docker python 3.12
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./python/Dockerfile-python-3.12
-          push: true
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/terragrunt-deploy:python-3.12
+            ${{ secrets.DOCKERHUB_USERNAME }}/terragrunt-deploy:${{ matrix.tag }}
+
+  notify:
+    runs-on: ubuntu-latest
+    needs: build
+    if: success()
+    steps:
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
