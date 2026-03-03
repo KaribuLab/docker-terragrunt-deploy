@@ -1,10 +1,6 @@
-FROM golang:1.23.1-alpine3.20 AS builder
-
-RUN GOBIN=/bin go install github.com/go-task/task/v3/cmd/task@latest
-
 FROM python:3.12.8-alpine3.21
 
-RUN apk add --no-cache bash wget unzip git aws-cli jq openssh-client && \
+RUN apk add --no-cache bash wget unzip git aws-cli jq openssh-client nodejs npm && \
     addgroup -S python && \
     adduser -S python -G python -s /bin/bash && \
     mkdir -p /home/python/infra && \
@@ -16,11 +12,8 @@ RUN apk add --no-cache bash wget unzip git aws-cli jq openssh-client && \
     chmod +x /usr/local/bin/terraform && \
     wget https://github.com/gruntwork-io/terragrunt/releases/download/v0.67.4/terragrunt_linux_amd64 && \
     mv terragrunt_linux_amd64 /usr/local/bin/terragrunt && \
-    chmod +x /usr/local/bin/terragrunt
-
-COPY --from=builder /bin/task /usr/local/bin/task
-
-RUN chmod +x /usr/local/bin/task
+    chmod +x /usr/local/bin/terragrunt && \
+    npm install -g @go-task/cli
 
 USER python
 
