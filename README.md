@@ -35,6 +35,16 @@ Imágenes Docker optimizadas para despliegues de infraestructura con Terragrunt,
   - AWS CLI
   - Git, bash, jq, openssh-client
 
+#### `node-26-pnpm12`
+- **Base:** Node.js 26.13 Alpine 3.24
+- **Herramientas incluidas:**
+  - Terraform 1.9.5
+  - Terragrunt 0.67.4
+  - Task (go-task)
+  - Corepack + pnpm 12.18.0
+  - AWS CLI
+  - Git, bash, jq, openssh-client
+
 ### Python
 
 #### `python-3.12`
@@ -47,6 +57,20 @@ Imágenes Docker optimizadas para despliegues de infraestructura con Terragrunt,
   - Git, bash, jq, openssh-client
 
 ## Uso
+
+### En Bitbucket Pipelines
+
+```yaml
+image: karibu/terragrunt-deploy:node-26-pnpm
+
+pipelines:
+  default:
+    - step:
+        name: Deploy infrastructure
+        script:
+          - cd infrastructure
+          - terragrunt run-all apply --terragrunt-non-interactive
+```
 
 ### En GitHub Actions
 

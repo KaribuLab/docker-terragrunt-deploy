@@ -20,6 +20,9 @@ jobs:
           - name: node-24-pnpm
             dockerfile: ./node/Dockerfile-node24-pnpm
             tag: node-24-pnpm
+          - name: node-26-pnpm
+            dockerfile: ./node/Dockerfile-node26-pnpm12
+            tag: node-26-pnpm
           - name: python-3.12
             dockerfile: ./python/Dockerfile-python-3.12
             tag: python-3.12
@@ -55,7 +58,7 @@ jobs:
           SLACK_CHANNEL: karibu-labs-it
           SLACK_COLOR: ${{ job.status }}
           SLACK_ICON: https://img.icons8.com/ios-filled/50/github.png
-          SLACK_MESSAGE: "New version of Terragrunt Deploy (node-20, node-22-pnpm, node-24-pnpm, python-3.12) https://hub.docker.com/repository/docker/karibu/terragrunt-deploy/general :rocket:"
+          SLACK_MESSAGE: "New version of Terragrunt Deploy (node-20, node-22-pnpm, node-24-pnpm, node-26-pnpm, python-3.12) https://hub.docker.com/repository/docker/karibu/terragrunt-deploy/general :rocket:"
           SLACK_TITLE: New image version of Terragrunt Deploy
           SLACK_USERNAME: github-actions
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
