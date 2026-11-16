@@ -11,7 +11,7 @@ RUN apk add --no-cache bash wget unzip git aws-cli jq openssh-client curl git &&
     wget https://github.com/gruntwork-io/terragrunt/releases/download/v0.67.4/terragrunt_linux_amd64 && \
     mv terragrunt_linux_amd64 /usr/local/bin/terragrunt && \
     chmod +x /usr/local/bin/terragrunt && \
-    npm install -g @go-task/cli pnpm
+    npm install -g @go-task/cli pnpm@10.34.9
 
 RUN apk add --no-cache rsync
 
